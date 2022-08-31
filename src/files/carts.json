@@ -1,0 +1,43 @@
+[
+	{
+		"id": 1,
+		"products": [
+			{
+				"id": "1",
+				"quantity": "72"
+			},
+			{
+				"id": "2",
+				"quantity": "28"
+			},
+			{
+				"id": "3",
+				"quantity": "2"
+			},
+			{
+				"id": "5",
+				"quantity": "4"
+			},
+			{
+				"id": "4",
+				"quantity": "1"
+			}
+		],
+		"timestamp": "12/8/2022"
+	},
+	{
+		"id": 2,
+		"products": [],
+		"timestamp": "12/8/2022"
+	},
+	{
+		"id": 3,
+		"products": [],
+		"timestamp": "31/8/2022"
+	},
+	{
+		"id": 4,
+		"products": [],
+		"timestamp": "31/8/2022"
+	}
+]

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productos</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>
+      Para ver su ultimo producto agregado:<a
+        href="http://localhost:8080/api/products/"
+      >
+        Click aqui</a
+      >
+    </h1>
+    <h2>Agregar Producto</h2>
+    <form id="productsForm">
+      <label><br />Title<br /></label>
+      <input name="title" type="text" required />
+      <label><br />Price<br /></label>
+      <input name="price" type="number" required />
+      <label><br />Thumbnail<br /></label>
+      <input name="thumbnail" type="text" required /><br />
+      <label><br />Description<br /></label>
+      <input name="description" type="text" required /><br />
+      <label><br />Stock<br /></label>
+      <input name="stock" type="number" required /><br />
+      <input type="submit" />
+    </form>
+    <h2>Funciones</h2>
+    <form id="addForm">
+      <label><br />Buscar producto con id :</label>
+      <input type="number" name="add" required />
+      <br />
+      <input type="submit" />
+    </form>
+
+    <form id="deleteForm">
+      <label><br />Borrar por id:</label>
+      <input type="number" name="delete" required /><br />
+      <input type="submit" />
+    </form>
+    <h2>Actualizar producto</h2>
+    <form id="updateForm">
+      <label><br />Id del producto que quieres actualizar<br /></label>
+      <input type="number" name="id" required />
+      <label><br />Title<br /></label>
+      <input name="title" required />
+      <label><br />Price<br /></label>
+      <input name="price" required />
+      <label><br />Thumbnail<br /></label>
+      <input name="thumbnail" required /><br />
+      <label><br />Description<br /></label>
+      <input name="description" type="text" required /><br />
+      <label><br />Stock<br /></label>
+      <input name="stock" type="number" required /><br />
+      <input type="submit" />
+    </form>
+
+    <script src="./js/index2.js"></script>
+  </body>
+</html>
