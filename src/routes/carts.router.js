@@ -49,16 +49,35 @@ router.get("/:cid/products", validateCid, async (req, res) => {
 // });
 router.post("/", async (req, res) => {
   res.send({ status: "succes", message: "Cart Added" });
-  await services.cartService.save();
+  await services.cartService.newCart();
 });
 
 // POST "/:cid/products" - Add products to a specific cart (cid)
 // Hay que mandarle en el req.body un objeto con el id del producto y la quantity
-router.post("/:cid/products", validatePid, async (req, res) => {
-  await services.cartService.addProductsToCart(req);
-  res.send({
-    status: `${req.body.quantity} units of the product with id: ${req.body.id} were added to the cart`,
-  });
+router.post("/:cid/products", validateCid, async (req, res) => {
+  const { id, quantity } = req.body;
+  if (!id || !quantity) {
+    return res
+      .status(300)
+      .send({ status: "error", error: "blank spaces are NOT allowed" });
+  } else {
+    try {
+      await services.cartService.addProductToCart(
+        req.params.cid,
+        id,
+        Number(quantity)
+      );
+      res.send({
+        status: "success",
+        message: "successfully saved into the cart",
+      });
+    } catch (error) {
+      return res.status(500).send({
+        status: "error",
+        error: "it couldn't upload the product into the cart",
+      });
+    }
+  }
 });
 
 //DELETE "/:cid" - deletes a carts by its id

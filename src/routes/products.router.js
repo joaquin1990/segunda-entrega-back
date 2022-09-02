@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
   let product = req.body;
   console.log(req.body);
   res.send({ status: "succes", message: "Product Added" });
-  await services.productService.save(product);
+  await services.productService.addProduct(product);
 });
 
 //PUT '/api/products/:id' -> recieves and updates a product

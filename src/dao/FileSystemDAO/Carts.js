@@ -2,49 +2,69 @@ import fs from "fs";
 import FSContainer from "./FSContainer.js";
 import __dirname from "../../utils.js";
 
-const path = __dirname + "/files/carts.json";
+// const path = __dirname + "/files/carts.json";
 export default class Carts extends FSContainer {
+  constructor() {
+    super();
+    this.path = __dirname + "/files/carts.json";
+  }
   // GET all carts:
-  getAll = async () => {
-    try {
-      if (fs.existsSync(path)) {
-        let fileData = await fs.promises.readFile(path, "utf8");
-        let carts = JSON.parse(fileData);
-        return carts;
-      } else {
-        return [];
-      }
-    } catch (error) {
-      console.log("Cannot read File : " + error);
-    }
-  };
+  // getAll = async () => {
+  //   try {
+  //     if (fs.existsSync(path)) {
+  //       let fileData = await fs.promises.readFile(path, "utf8");
+  //       let carts = JSON.parse(fileData);
+  //       return carts;
+  //     } else {
+  //       return [];
+  //     }
+  //   } catch (error) {
+  //     console.log("Cannot read File : " + error);
+  //   }
+  // };
   // cart.timestamp = new Date(Date.now()).toLocaleDateString();
   // POST Add new cart:
-  save = async () => {
-    try {
-      let carts = await this.getAll();
-      let cart = {};
-      if (carts.length === 0) {
-        cart.id = 1;
-        cart.products = [];
-        cart.timestamp = new Date(Date.now()).toLocaleDateString();
-        carts.push(cart);
-        await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
-        console.log(`El id del cart agregado es el "${cart.id}", carts:`);
-        console.log(carts);
-      } else {
-        cart.id = carts[carts.length - 1].id + 1;
-        cart.products = [];
-        cart.timestamp = new Date(Date.now()).toLocaleDateString();
-        carts.push(cart);
-        await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
-        console.log(`El id del cart agregado es el "${cart.id}", carts:`);
-      }
-    } catch (error) {
-      console.log("Cannot write cart file: " + error);
+  // save = async () => {
+  //   try {
+  //     let carts = await this.getAll();
+  //     let cart = {};
+  //     if (carts.length === 0) {
+  //       cart.id = 1;
+  //       cart.products = [];
+  //       cart.timestamp = new Date(Date.now()).toLocaleDateString();
+  //       carts.push(cart);
+  //       await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
+  //       console.log(`El id del cart agregado es el "${cart.id}", carts:`);
+  //       console.log(carts);
+  //     } else {
+  //       cart.id = carts[carts.length - 1].id + 1;
+  //       cart.products = [];
+  //       cart.timestamp = new Date(Date.now()).toLocaleDateString();
+  //       carts.push(cart);
+  //       await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
+  //       console.log(`El id del cart agregado es el "${cart.id}", carts:`);
+  //     }
+  //   } catch (error) {
+  //     console.log("Cannot write cart file: " + error);
+  //   }
+  // };
+
+  newCart = async () => {
+    let data = await this.getAll();
+    let cart = {};
+    if (data.length === 0) {
+      cart.id = 1;
+      cart.date = new Date(Date.now()).toLocaleDateString();
+    } else {
+      cart.id = data[data.length - 1].id + 1;
+      cart.date = new Date(Date.now()).toLocaleDateString();
     }
+    cart.products = [];
+    await this.save(cart);
+    return cart.id;
   };
 
+  // Listo
   // GET all products from a cart by its cid
   getProductsByCid = async (cid) => {
     try {
@@ -61,6 +81,7 @@ export default class Carts extends FSContainer {
     }
   };
 
+  // Listo
   //  DELETE a product by its cid and pid:
   deleteProductInCart = async (cid, pid) => {
     const allCarts = await this.getAll();
@@ -77,76 +98,99 @@ export default class Carts extends FSContainer {
     return allCarts;
   };
 
-  deleteById = async (number) => {
-    try {
-      let carts = await this.getAll();
-      let findCart = carts.find((cart) => cart.id == number);
-      let newCarts = carts.filter((cart) => cart.id != number);
-      if (findCart) {
-        await fs.promises.writeFile(path, JSON.stringify(newCarts, null, "\t"));
-        console.log("Se ha eliminado el siguiente cart: ");
-        console.log(findCart);
-      } else {
-        console.log(`El id "${number}" no existe!`);
-      }
-    } catch (error) {
-      console.log("Cannot delete cart: " + error);
-    }
-  };
+  // deleteById = async (number) => {
+  //   try {
+  //     let carts = await this.getAll();
+  //     let findCart = carts.find((cart) => cart.id == number);
+  //     let newCarts = carts.filter((cart) => cart.id != number);
+  //     if (findCart) {
+  //       await fs.promises.writeFile(path, JSON.stringify(newCarts, null, "\t"));
+  //       console.log("Se ha eliminado el siguiente cart: ");
+  //       console.log(findCart);
+  //     } else {
+  //       console.log(`El id "${number}" no existe!`);
+  //     }
+  //   } catch (error) {
+  //     console.log("Cannot delete cart: " + error);
+  //   }
+  // };
 
   // POST add products to cart by its id
-  update = async (obj, id) => {
-    let allProducts = await this.getAll();
-    allProducts.map(function (item) {
-      if (item.id == id) {
-        item.title = obj.title;
-        item.price = obj.price;
-        item.thumbnail = obj.thumbnail;
-      }
-    });
-    await fs.promises.writeFile(path, JSON.stringify(allProducts, null, "\t"));
-    return allProducts;
-  };
+  // update = async (obj, id) => {
+  //   let allProducts = await this.getAll();
+  //   allProducts.map(function (item) {
+  //     if (item.id == id) {
+  //       item.title = obj.title;
+  //       item.price = obj.price;
+  //       item.thumbnail = obj.thumbnail;
+  //     }
+  //   });
+  //   await fs.promises.writeFile(path, JSON.stringify(allProducts, null, "\t"));
+  //   return allProducts;
+  // };
 
-  addProductsToCart = async (req) => {
-    try {
-      let cid = Number(req.params.cid);
-      let products = await this.getProductsByCid(cid);
-      let carts = await this.getAll();
-      let findedProduct = products.find(
-        (product) => Number(product.id) === Number(req.body.id)
-      );
-      let findedCart = carts.find((cart) => Number(cart.id) == cid);
-      if (findedProduct) {
-        let findedProductQuantity = findedProduct.quantity;
-        findedProduct.quantity = (
-          Number(findedProductQuantity) + Number(req.body.quantity)
-        ).toString();
-        findedCart.products = products;
-        await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
-      } else {
-        console.log(`El id "${req.body.id}" no corresponde a ningun producto!`);
-        // findedCart.products.push(req.body);
-        // await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
-      }
-    } catch (error) {
-      console.log("No se pudo agregar el producto al carrito: " + error);
-    }
-  };
-
-  getCartById = async (id) => {
-    try {
-      let carts = await this.getAll();
-      let cart = null;
-      for (const item of carts) {
-        if (item.id === id) {
-          return item;
+  // Listo
+  // addProductsToCart = async (req) => {
+  //   try {
+  //     let cid = Number(req.params.cid);
+  //     let products = await this.getProductsByCid(cid);
+  //     let carts = await this.getAll();
+  //     let findedProduct = products.find(
+  //       (product) => Number(product.id) === Number(req.body.id)
+  //     );
+  //     let findedCart = carts.find((cart) => Number(cart.id) == cid);
+  //     if (findedProduct) {
+  //       let findedProductQuantity = findedProduct.quantity;
+  //       findedProduct.quantity = (
+  //         Number(findedProductQuantity) + Number(req.body.quantity)
+  //       ).toString();
+  //       findedCart.products = products;
+  //       await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
+  //     } else {
+  //       console.log(`El id "${req.body.id}" no corresponde a ningun producto!`);
+  //       // await fs.promises.writeFile(path, JSON.stringify(carts, null, "\t"));
+  //     }
+  //   } catch (error) {
+  //     console.log("No se pudo agregar el producto al carrito: " + error);
+  //   }
+  // };
+  addProductToCart = async (cid, pid, qty) => {
+    let cart = await this.getById(cid);
+    if (cart.products.some((e) => e.id === pid)) {
+      for (const item of cart.products) {
+        if (item.id === pid) {
+          let condition = Number(item.quantity) + qty;
+          if (condition < 1) {
+            item.quantity = 1;
+          } else {
+            console.log(condition);
+            item.quantity = condition;
+          }
         }
       }
-      return cart;
-    } catch (error) {
-      console.log("Cart container error, getCartById()");
-      console.log(error);
+    } else {
+      if (qty < 1) {
+        throw new Error("Cart manager error:{addProductCart} invalid quantity");
+      } else {
+        cart.products.push({ id: pid, quantity: qty });
+      }
     }
+    await this.update(cart);
   };
+
+  // getCartById = async (id) => {
+  //   try {
+  //     let carts = await this.getAll();
+  //     let cart = null;
+  //     for (const item of carts) {
+  //       if (item.id === id) {
+  //         return item;
+  //       }
+  //     }
+  //     return cart;
+  //   } catch (error) {
+  //     console.log("Cart container error, getCartById()");
+  //     console.log(error);
+  //   }
+  // };
 }

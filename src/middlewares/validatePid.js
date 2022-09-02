@@ -8,6 +8,7 @@ export default async function validatePid(req, res, next) {
     return res.status(400).send({ status: "error", error: "Invalid id" });
   }
   req.params.product = await container.getById(req.params.pid);
+  console.log(req.params, "Probando");
   if (req.params.product === null)
     return res
       .status(404)
