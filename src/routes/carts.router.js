@@ -14,6 +14,7 @@ const container = new Container();
 //   res.send(getAllCarts);
 // });
 router.get("/", async (req, res) => {
+  console.log("entra aca?");
   let getAllCarts = await services.cartService.getAll();
   res.send(getAllCarts);
 });
@@ -55,7 +56,7 @@ router.post("/", async (req, res) => {
 
 // POST "/:cid/products" - Add products to a specific cart (cid)
 // Hay que mandarle en el req.body un objeto con el id del producto y la quantity
-router.post("/:cid/products", validateCid, async (req, res) => {
+router.post("/:cid/products", validateCid2, async (req, res) => {
   const { id, quantity } = req.body;
   if (!id || !quantity) {
     return res
@@ -66,7 +67,7 @@ router.post("/:cid/products", validateCid, async (req, res) => {
       await services.cartService.addProductToCart(
         req.params.cid,
         id,
-        Number(quantity)
+        parseInt(quantity)
       );
       res.send({
         status: "success",
@@ -84,17 +85,42 @@ router.post("/:cid/products", validateCid, async (req, res) => {
 //DELETE "/:cid" - deletes a carts by its id
 router.delete("/:cid", async (req, res) => {
   let cid = req.params.cid;
-  await container.deleteById(cid);
+  console.log("entro aca");
+  await services.cartService.deleteById(cid);
   res.send({ status: `Cart with id '${cid}' has been deleted` });
 });
-export default router;
 
 // DELETE "/:cid/products/:pid" - Delete a product by its id in a cart located by its id.
-router.delete("/:cid/products/:pid", async (req, res) => {
-  let cid = req.params.cid;
-  let pid = req.params.pid;
-  await container.deleteProductInCart(cid, pid);
-  res.send({
-    status: `The product id:${pid} from the cart id:${cid} was deleted`,
-  });
+router.delete("/:cid", validateCid2, async (req, res) => {
+  try {
+    console.log("Entra aca?2");
+    await services.cartService.deleteById(req.params.cid);
+    res.send({ status: "success", message: "successfully deleted" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", error: "cart couldn't been deleted" });
+  }
 });
+
+async function validateCid2(req, res, next) {
+  try {
+    req.params.cart = await services.cartService.getById(req.params.cid);
+  } catch (error) {
+    return res.status(300).send({ status: "error", error: "Invalid id" });
+  }
+  if (!req.params.cart)
+    return res.status(404).send({ status: "error", error: "Cart not found" });
+  next();
+}
+
+async function validatePid2(req, res, next) {
+  req.params.product = await services.productService.getById(req.params.pid);
+  if (!req.params.product)
+    return res
+      .status(404)
+      .send({ status: "error", error: "Product not found" });
+  next();
+}
+
+export default router;

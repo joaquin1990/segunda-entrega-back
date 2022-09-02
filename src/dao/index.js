@@ -1,4 +1,4 @@
-const persistence = "MONGO";
+const persistence = "FileSystem";
 let productService;
 let cartService;
 switch (persistence) {

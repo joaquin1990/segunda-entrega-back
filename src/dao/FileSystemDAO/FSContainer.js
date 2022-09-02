@@ -5,6 +5,7 @@ const path = __dirname + "/files/items.json";
 export default class FSContainer {
   constructor() {}
   getAll = async () => {
+    console.log("entra aca?2");
     try {
       if (fs.existsSync(this.path)) {
         let fileData = await fs.promises.readFile(this.path, "utf8");

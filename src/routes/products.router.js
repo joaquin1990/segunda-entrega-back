@@ -56,20 +56,33 @@ router.post("/", async (req, res) => {
 //   let products = await container.update(req.body, id);
 //   res.send(products);
 // });
-router.put("/:pid", validatePid, async (req, res) => {
-  let id = Number(req.params.pid);
-  let products = await services.productService.update(req.body, id);
-  res.send(products);
-});
+// router.put("/:pid", validatePid, async (req, res) => {
+//   let id = Number(req.params.pid);
+//   let products = await services.productService.update(req.body, id);
+//   res.send(products);
+// });
 
 // En proceso, no lo pude terminar, en mongo no lo pude hacer andar bien todavia
 // Este despues hay que comentarlo/
-router.put("/:pid/", async (req, res) => {
-  let pid = req.params.pid;
-  let productData = await req.body;
-  let product = await services.productsService.editById(pid, productData);
-  console.log(product);
-  res.send({ status: "completed" });
+// router.put("/:pid/", async (req, res) => {
+//   let pid = req.params.pid;
+//   let productData = await req.body;
+//   let product = await services.productService.editById(pid, productData);
+//   console.log(product);
+//   res.send({ status: "completed" });
+// });
+
+router.put("/:pid", validatePid2, async (req, res) => {
+  try {
+    req.body.id = req.params.pid;
+    console.log(req.body);
+    await services.productService.update(req.body);
+    res.send({ status: "success", message: "successfully saved" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", error: "it couldn't update the product" });
+  }
 });
 
 //DELETE '/api/products/:id' -> deletes a product by id
@@ -78,10 +91,31 @@ router.put("/:pid/", async (req, res) => {
 //   await container.deleteById(pid);
 //   res.send({ status: `Product with id: ${pid} has been deleted` });
 // });
-router.delete("/:pid", validatePid, async (req, res) => {
-  let pid = parseInt(req.params.pid);
-  await services.productService.deleteById(pid);
-  res.send({ status: `Product with id: ${pid} has been deleted` });
+
+// router.delete("/:pid", validatePid2, async (req, res) => {
+//   let pid = parseInt(req.params.pid);
+//   await services.productService.deleteById(pid);
+//   res.send({ status: `Product with id: ${pid} has been deleted` });
+// });
+
+router.delete("/:pid", validatePid2, async (req, res) => {
+  try {
+    await services.productService.deleteById(req.params.pid);
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", error: "it couldn't delete the product" });
+  }
+  res.send({ status: "success", message: "successfully deleted" });
 });
+
+async function validatePid2(req, res, next) {
+  req.params.product = await services.productService.getById(req.params.pid);
+  if (!req.params.product)
+    return res
+      .status(404)
+      .send({ status: "error", error: "Product not founded" });
+  next();
+}
 
 export default router;

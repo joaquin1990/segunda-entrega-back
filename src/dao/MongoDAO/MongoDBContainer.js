@@ -20,19 +20,20 @@ export default class MongoDBContainer {
   };
 
   getById = async (id) => {
-    console.log("Hols");
+    console.log("hola");
     let result = await this.model.findOne({ _id: id });
+    console.log(result);
     return result;
   };
 
   deleteById = async (id) => {
+    console.log("Entra aca?");
     await this.model.deleteOne({ _id: id });
   };
 
   update = async (object) => {
     console.log(object, "object");
     let id = object.id ? object.id : object_id;
-    // delete object.id ? object.id : object_id;
     await this.model.updateOne({ _id: id }, { $set: object });
   };
 
