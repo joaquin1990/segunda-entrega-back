@@ -81,20 +81,31 @@ export default class FSContainer {
     }
   };
 
-  update = async (obj, id) => {
-    let allProducts = await this.getAll();
-    let pid = Number(id);
-    allProducts.map(function (item) {
-      if (item.id === pid) {
-        item.title = obj.title;
-        item.price = obj.price;
-        item.thumbnail = obj.thumbnail;
-        item.description = obj.description;
-        item.stock = obj.stock;
-      }
-    });
-    await fs.promises.writeFile(path, JSON.stringify(allProducts, null, "\t"));
-    return allProducts;
+  // update = async (obj, id) => {
+  //   let allProducts = await this.getAll();
+  //   let pid = Number(id);
+  //   console.log(pid, "pid");
+  //   console.log(obj, "cart");
+  //   console.log(allProducts, "all products");
+  //   allProducts.map(function (item) {
+  //     if (item.id === pid) {
+  //       item.title = obj.title;
+  //       item.price = obj.price;
+  //       item.thumbnail = obj.thumbnail;
+  //       item.description = obj.description;
+  //       item.stock = obj.stock;
+  //     }
+  //   });
+  //   await fs.promises.writeFile(path, JSON.stringify(allProducts, null, "\t"));
+  //   return allProducts;
+  // };
+
+  update = async (object) => {
+    let list = await this.getAll();
+    let index = list.findIndex((element) => element.id === object.id);
+    list[index] = object;
+    await fs.promises.writeFile(this.path, JSON.stringify(list, null, "\t"));
+    return true;
   };
 
   save = async (item) => {

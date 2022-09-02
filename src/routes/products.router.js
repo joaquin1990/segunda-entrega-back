@@ -13,7 +13,6 @@ const container = new Contenedor();
 //   res.send(getAllProducts);
 // });
 router.get("/", async (req, res) => {
-  console.log("Ahora desde persistencias");
   let getAllProducts = await services.productService.getAll();
   res.send(getAllProducts);
 });
@@ -26,9 +25,13 @@ router.get("/", async (req, res) => {
 //   item ? res.send(item) : res.send("404 El valor pedido no existe");
 // });
 router.get("/:id", async (req, res) => {
+  console.log("hola");
   let allProducts = await services.productService.getAll();
   let id1 = Number(req.params.id);
-  let item = allProducts.find((item) => item.id === id1);
+  let item = allProducts.find(
+    (item) => (item.id ? item.id : item._id) == (id1 ? id1 : req.params.id)
+  );
+  console.log(item);
   item ? res.send(item) : res.send("404 El valor pedido no existe");
 });
 
@@ -57,6 +60,16 @@ router.put("/:pid", validatePid, async (req, res) => {
   let id = Number(req.params.pid);
   let products = await services.productService.update(req.body, id);
   res.send(products);
+});
+
+// En proceso, no lo pude terminar, en mongo no lo pude hacer andar bien todavia
+// Este despues hay que comentarlo/
+router.put("/:pid/", async (req, res) => {
+  let pid = req.params.pid;
+  let productData = await req.body;
+  let product = await services.productsService.editById(pid, productData);
+  console.log(product);
+  res.send({ status: "completed" });
 });
 
 //DELETE '/api/products/:id' -> deletes a product by id

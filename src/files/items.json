@@ -1,48 +1,22 @@
 [
 	{
-		"id": 1,
-		"products": [
-			{
-				"id": "1",
-				"quantity": "72"
-			},
-			{
-				"id": "2",
-				"quantity": "28"
-			},
-			{
-				"id": "3",
-				"quantity": "2"
-			},
-			{
-				"id": "5",
-				"quantity": "4"
-			},
-			{
-				"id": "4",
-				"quantity": "1"
-			}
-		],
-		"timestamp": "12/8/2022"
+		"title": "Vela probando",
+		"price": "344",
+		"thumbnail": "dir",
+		"description": "buena",
+		"stock": "12",
+		"id": 6,
+		"code": "1bc5ce0f-7c0e-4abe-bfea-2f77abccaa59",
+		"date": "2/9/2022"
 	},
 	{
-		"id": 2,
-		"products": [],
-		"timestamp": "12/8/2022"
-	},
-	{
-		"id": 3,
-		"products": [],
-		"timestamp": "31/8/2022"
-	},
-	{
-		"id": 4,
-		"products": [],
-		"timestamp": "31/8/2022"
-	},
-	{
-		"id": 5,
-		"date": "1/9/2022",
-		"products": []
+		"title": "Vela probando 2",
+		"price": "344",
+		"thumbnail": "dir",
+		"description": "buena",
+		"stock": "12",
+		"id": 7,
+		"code": "63db7c56-9da5-4253-af50-96cf40821ac9",
+		"date": "2/9/2022"
 	}
 ]

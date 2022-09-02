@@ -2,16 +2,47 @@ import mongoose from "mongoose";
 
 export default class MongoDBContainer {
   constructor(collection, schema) {
-    mongoose.connect("mongodb://127.0.0.1/baseFeliz");
-    this.model = mongoose.model(collection, schema); //
+    mongoose.connect(
+      "mongodb+srv://joaquingarese:1a2b3c@testback.b3qwb1m.mongodb.net/?retryWrites=true&w=majority"
+    );
+    this.model = mongoose.model(collection, schema);
   }
 
   getAll = async () => {
-    let results = await this.model.find();
+    let data = await this.model.find();
+    return data;
+  };
+
+  save = async (element) => {
+    console.log(element);
+    let result = await this.model.create(element);
+    return result;
+  };
+
+  getById = async (id) => {
+    console.log("Hols");
+    let result = await this.model.findOne({ _id: id });
+    return result;
+  };
+
+  deleteById = async (id) => {
+    await this.model.deleteOne({ _id: id });
+  };
+
+  update = async (object) => {
+    console.log(object, "object");
+    let id = object.id ? object.id : object_id;
+    // delete object.id ? object.id : object_id;
+    await this.model.updateOne({ _id: id }, { $set: object });
+  };
+
+  editById = async (id, document) => {
+    let results = await this.model.findOneAndUpdate({ _id: id }, document);
+
     return results;
   };
-  save = async (document) => {
-    let results = await this.model.create(document);
-    return results;
+
+  deleteAll = async () => {
+    await this.model.deleteAll();
   };
 }

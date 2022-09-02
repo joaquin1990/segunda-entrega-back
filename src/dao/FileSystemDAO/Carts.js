@@ -163,8 +163,7 @@ export default class Carts extends FSContainer {
           if (condition < 1) {
             item.quantity = 1;
           } else {
-            console.log(condition);
-            item.quantity = condition;
+            item.quantity = condition.toString();
           }
         }
       }
