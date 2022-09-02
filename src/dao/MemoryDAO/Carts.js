@@ -42,8 +42,6 @@ export default class Carts extends MemoryContainer {
     this.update(cart);
   };
 
-  // delete a product from a cart
-  // require cartID and productID
   deleteProductFromCart = (cid, pid) => {
     let cart = this.getById(cid);
 
@@ -69,7 +67,7 @@ export default class Carts extends MemoryContainer {
       for (const item of cart.products) {
         console.log("cart product:", productService.getById(item.id));
         copyList.push({
-          product: productService.getById(item.id), // ------------------------ It hasnt been used XXXXXXXXXXXXXXXXXX
+          product: productService.getById(item.id),
           quantity: item.quantity,
         });
       }

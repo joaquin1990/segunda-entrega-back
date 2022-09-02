@@ -18,34 +18,6 @@ export default class FSContainer {
     }
   };
 
-  // save = async (product) => {
-  //   try {
-  //     let products = await this.getAll();
-
-  //     if (products.length === 0) {
-  //       product.id = 1;
-  //       product.date = new Date(Date.now()).toLocaleDateString();
-  //       product.code = uuid();
-  //       products.push(product);
-
-  //       await fs.promises.writeFile(path, JSON.stringify(products, null, "\t"));
-  //       console.log(`El id del product agregado es el "${product.id}"`);
-  //       console.log(products);
-  //     } else {
-  //       product.id = products[products.length - 1].id + 1;
-  //       product.date = new Date(Date.now()).toLocaleDateString();
-  //       product.code = uuid();
-  //       products.push(product);
-
-  //       await fs.promises.writeFile(path, JSON.stringify(products, null, "\t"));
-  //       console.log(
-  //         `El id del product agregado es el "${product.id}", products:`
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.log("Cannot write file: " + error);
-  //   }
-  // };
   getById = async (id) => {
     try {
       let products = await this.getAll();
@@ -80,25 +52,6 @@ export default class FSContainer {
       console.log("Cannot delete item: " + error);
     }
   };
-
-  // update = async (obj, id) => {
-  //   let allProducts = await this.getAll();
-  //   let pid = Number(id);
-  //   console.log(pid, "pid");
-  //   console.log(obj, "cart");
-  //   console.log(allProducts, "all products");
-  //   allProducts.map(function (item) {
-  //     if (item.id === pid) {
-  //       item.title = obj.title;
-  //       item.price = obj.price;
-  //       item.thumbnail = obj.thumbnail;
-  //       item.description = obj.description;
-  //       item.stock = obj.stock;
-  //     }
-  //   });
-  //   await fs.promises.writeFile(path, JSON.stringify(allProducts, null, "\t"));
-  //   return allProducts;
-  // };
 
   update = async (object) => {
     let list = await this.getAll();
