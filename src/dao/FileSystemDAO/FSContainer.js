@@ -25,7 +25,7 @@ export default class FSContainer {
       let product = null;
 
       for (const item of products) {
-        if (item.id === id) {
+        if (item.id == id) {
           product = item;
         }
       }

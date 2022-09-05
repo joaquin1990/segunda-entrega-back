@@ -110,6 +110,7 @@ router.delete("/:pid", validatePid2, async (req, res) => {
 
 async function validatePid2(req, res, next) {
   req.params.product = await services.productService.getById(req.params.pid);
+  console.log(req.params.product);
   if (!req.params.product)
     return res
       .status(404)
