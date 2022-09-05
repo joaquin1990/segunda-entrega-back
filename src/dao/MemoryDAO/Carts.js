@@ -42,7 +42,7 @@ export default class Carts extends MemoryContainer {
     this.update(cart);
   };
 
-  deleteProductFromCart = (cid, pid) => {
+  deleteProductInCart = (cid, pid) => {
     let cart = this.getById(cid);
 
     let newCartProduts = [];
@@ -60,7 +60,7 @@ export default class Carts extends MemoryContainer {
   };
 
   // return an object with all products' properties of the cart
-  getProductsCart = (cid) => {
+  getProductsByCid = (cid) => {
     try {
       let cart = this.getById(cid);
       let copyList = [];
