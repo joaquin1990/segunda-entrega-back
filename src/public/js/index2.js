@@ -22,7 +22,6 @@ productForm.addEventListener("submit", (e) =>
 let addForm = document.getElementById("addForm");
 const addSubmit = (evt, form, route) => {
   evt.preventDefault();
-  console.log("hola");
   let formData = new FormData(form);
   let obj = {};
   formData.forEach((value, key) => (obj[key] = value));

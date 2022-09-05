@@ -25,7 +25,6 @@ router.get("/", async (req, res) => {
 //   item ? res.send(item) : res.send("404 El valor pedido no existe");
 // });
 router.get("/:id", async (req, res) => {
-  console.log("hola");
   let allProducts = await services.productService.getAll();
   let id1 = Number(req.params.id);
   let item = allProducts.find(

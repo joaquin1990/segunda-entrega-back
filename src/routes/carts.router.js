@@ -31,10 +31,10 @@ router.get("/", async (req, res) => {
 //       .send({ status: "error", error: "Products couldn't be shown" });
 //   }
 // });
-router.get("/:cid/products", validateCid, async (req, res) => {
+router.get("/:cid/products", validateCid2, async (req, res) => {
   try {
     let cid = Number(req.params.cid);
-    let products = await services.cartService.getProductsByCid(cid);
+    let products = await services.cartService.getProductsByCid(req.params.cid);
     res.send({ products });
   } catch (error) {
     return res
@@ -44,24 +44,18 @@ router.get("/:cid/products", validateCid, async (req, res) => {
 });
 
 //POST "/" - recieves and adds a cart
-// router.post("/", async (req, res) => {
-//   let cart = req.body;
-//   res.send({ status: "succes", message: "Cart Added" });
-//   await container.save(cart);
-// });
 router.post("/", async (req, res) => {
   res.send({ status: "succes", message: "Cart Added" });
   await services.cartService.newCart();
 });
 
 // POST "/:cid/products" - Add products to a specific cart (cid)
-// Hay que mandarle en el req.body un objeto con el id del producto y la quantity
 router.post("/:cid/products", validateCid2, async (req, res) => {
   const { id, quantity } = req.body;
   if (!id || !quantity) {
     return res
       .status(300)
-      .send({ status: "error", error: "blank spaces are NOT allowed" });
+      .send({ status: "error", error: "You Must Send All the parameters" });
   } else {
     try {
       await services.cartService.addProductToCart(
@@ -91,10 +85,13 @@ router.delete("/:cid", async (req, res) => {
 });
 
 // DELETE "/:cid/products/:pid" - Delete a product by its id in a cart located by its id.
-router.delete("/:cid", validateCid2, async (req, res) => {
+router.delete("/:cid/products/:pid", validateCid2, async (req, res) => {
   try {
-    console.log("Entra aca?2");
-    await services.cartService.deleteById(req.params.cid);
+    console.log(req.params.cid);
+    await services.cartService.deleteProductFromCart(
+      req.params.cid,
+      req.params.pid
+    );
     res.send({ status: "success", message: "successfully deleted" });
   } catch (error) {
     return res

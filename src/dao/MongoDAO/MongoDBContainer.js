@@ -20,7 +20,6 @@ export default class MongoDBContainer {
   };
 
   getById = async (id) => {
-    console.log("hola");
     let result = await this.model.findOne({ _id: id });
     console.log(result);
     return result;

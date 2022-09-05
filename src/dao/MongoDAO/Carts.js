@@ -17,25 +17,6 @@ export default class Users extends MongoDBContainer {
     return result;
   };
 
-  // addProductToCart = async (object, pid) => {
-  //   let cart = await this.model.find({ _id: object[0]._id }, { products: 1 });
-  //   let productsInCart = cart[0].products;
-  //   let product = cart[0].products.find((item) => item.pid == pid.pid);
-  //   let conditionalArray = [];
-  //   conditionalArray.push(product);
-
-  //   if (conditionalArray[0] == null) {
-  //     cart[0].products.push({ pid: pid.pid, quantity: 1 });
-  //   } else {
-  //     product.quantity++;
-  //   }
-  //   await this.model.updateOne(
-  //     { _id: object[0]._id },
-  //     { $set: { products: productsInCart } }
-  //   );
-  //   return cart;
-  // };
-
   addProductToCart = async (cid, pid, qty) => {
     let cart = await this.getById(cid);
     if (!cart.products) {
@@ -70,16 +51,36 @@ export default class Users extends MongoDBContainer {
     await this.update(cart);
   };
 
-  deleteProduct = async (object, pid) => {
-    let cart = await this.model.find({ _id: object[0]._id }, { products: 1 });
-    let productsInCart = cart[0].products;
-    cart[0].products = cart[0].products.find((item) => item.pid !== pid.pid);
+  deleteProductFromCart = async (cid, pid) => {
+    let cart = await this.getById(cid);
 
-    await this.model.updateOne(
-      { _id: object[0]._id },
-      { $set: { products: cart[0].products } }
-    );
-    // await cart.save();
-    return cart;
+    let newCartProduts = [];
+
+    if (cart.products.some((e) => e.id === pid)) {
+      for (const item of cart.products) {
+        if (item.id === pid) {
+          continue;
+        }
+        newCartProduts.push(item);
+      }
+      cart.products = newCartProduts;
+      this.update(cart);
+    }
+  };
+
+  // GET all products from a cart by its cid
+  getProductsByCid = async (cid) => {
+    try {
+      const allCarts = await this.getAll();
+      let findedCart = allCarts.find((cart) => {
+        if (cart["_id"] == cid) {
+          return cart;
+        }
+      });
+      let products = findedCart["products"];
+      return products;
+    } catch (error) {
+      console.log("Hay un error: " + error);
+    }
   };
 }
