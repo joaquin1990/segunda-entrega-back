@@ -20,13 +20,11 @@
 		"date": "2/9/2022"
 	},
 	{
-		"title": "Vela super modificadaaa",
-		"price": "344",
-		"thumbnail": "dir",
-		"description": "buena",
-		"stock": "12",
-		"id": 8,
-		"code": "27c4ba3e-62ab-4232-8ede-38bd9f22c09e",
-		"date": "2/9/2022"
+		"id": "8",
+		"title": "Vela Zerpada",
+		"price": "440",
+		"thumbnail": "DIre de zarpada",
+		"description": "Direccion de vela zarpada",
+		"stock": "111"
 	}
 ]
