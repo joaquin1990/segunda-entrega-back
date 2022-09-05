@@ -1,7 +1,6 @@
 import { Router } from "express";
 import Contenedor from "../managers/productsContainer.js";
 import services from "../dao/index.js";
-import validatePid from "../middlewares/validatePid.js";
 
 const router = Router();
 const container = new Contenedor();
