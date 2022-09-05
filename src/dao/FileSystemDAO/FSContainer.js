@@ -42,10 +42,13 @@ export default class FSContainer {
       let items = await this.getAll();
       let findItem = items.find((item) => item.id == number);
       let newItems = items.filter((item) => item.id != number);
+      console.log("New items ");
+      console.log(newItems);
       if (findItem) {
-        await fs.promises.writeFile(path, JSON.stringify(newItems, null, "\t"));
-        console.log("Se ha eliminado el siguiente item: ");
-        console.log(findItem);
+        await fs.promises.writeFile(
+          this.path,
+          JSON.stringify(newItems, null, "\t")
+        );
       } else {
         console.log(`El id "${number}" no existe!`);
       }

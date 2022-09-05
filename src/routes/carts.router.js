@@ -9,10 +9,7 @@ const router = Router();
 const container = new Container();
 
 //GET "/" -> returns all the carts
-// router.get("/", async (req, res) => {
-//   let getAllCarts = await container.getAll();
-//   res.send(getAllCarts);
-// });
+
 router.get("/", async (req, res) => {
   console.log("entra aca?");
   let getAllCarts = await services.cartService.getAll();
@@ -20,17 +17,6 @@ router.get("/", async (req, res) => {
 });
 
 // GET "/:cid/products" - returns all products from cart
-// router.get("/:cid/products", validateCid, async (req, res) => {
-//   try {
-//     let cid = Number(req.params.cid);
-//     let products = await container.getProductsByCid(cid);
-//     res.send({ products });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .send({ status: "error", error: "Products couldn't be shown" });
-//   }
-// });
 router.get("/:cid/products", validateCid2, async (req, res) => {
   try {
     let cid = Number(req.params.cid);
@@ -78,10 +64,9 @@ router.post("/:cid/products", validateCid2, async (req, res) => {
 
 //DELETE "/:cid" - deletes a carts by its id
 router.delete("/:cid", async (req, res) => {
-  let cid = req.params.cid;
-  console.log("entro aca");
-  await services.cartService.deleteById(cid);
-  res.send({ status: `Cart with id '${cid}' has been deleted` });
+  let cid2 = req.params.cid;
+  await services.cartService.deleteById(cid2);
+  res.send({ status: `Cart with id '${cid2}' has been deleted` });
 });
 
 // DELETE "/:cid/products/:pid" - Delete a product by its id in a cart located by its id.
