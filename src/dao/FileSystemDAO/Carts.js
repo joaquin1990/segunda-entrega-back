@@ -54,7 +54,10 @@ export default class Carts extends FSContainer {
       return product["id"] != pid;
     });
     console.log(findCart);
-    await fs.promises.writeFile(path, JSON.stringify(allCarts, null, "\t"));
+    await fs.promises.writeFile(
+      this.path,
+      JSON.stringify(allCarts, null, "\t")
+    );
     return allCarts;
   };
 

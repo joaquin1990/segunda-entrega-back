@@ -72,8 +72,7 @@ router.delete("/:cid", async (req, res) => {
 // DELETE "/:cid/products/:pid" - Delete a product by its id in a cart located by its id.
 router.delete("/:cid/products/:pid", validateCid2, async (req, res) => {
   try {
-    console.log(req.params.cid);
-    await services.cartService.deleteProductFromCart(
+    await services.cartService.deleteProductInCart(
       req.params.cid,
       req.params.pid
     );
